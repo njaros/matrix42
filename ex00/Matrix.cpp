@@ -1,6 +1,8 @@
-#include "Matrix.hpp"
+#include "Vector.hpp"
 
-int main(void)
+using namespace ft;
+
+int main()
 {
 	Vector<int>	a{1, 2, 3};
 	Vector<int>	b{1, 1, 1};
@@ -12,23 +14,48 @@ int main(void)
 	};
 
 	a += b;
-	a.displayVector();
+	a.displayVectorLn();
 	a += c;
-	a.displayVector();
+	std::cout << " a = " << a << '\n';
 
 	c = a + b;
-	c.displayVector();
-	a.displayVector();
+	c.displayVectorLn();
+	a.displayVectorLn();
 	c = a * 2;
-	c.displayVector();
+	c.displayVectorLn();
 	c = a * 2.3;
-	c.displayVector();
+	c.displayVectorLn();
 	c = 7 * a;
-	c.displayVector();
+	c.displayVectorLn();
 	a *= 0.7;
-	a.displayVector();
+	a.displayVectorLn();
 
+	std::cout << "m = \n" << m << '\n';
 
-	m.displayMatrix();
+	Matrix<int> n{
+			{1, 2},
+			{3, 41}
+	};
+
+	if (n.good())
+		std::cout << "n = \n" << n << '\n';
+	else
+		std::cout << "matrix n failed\n";
+
+	m += n;
+	std::cout << m << '\n';
+
+	m *= 0.5;
+	std::cout << m << '\n';
+
+	Matrix<int>	k(2 * n);
+
+	std::cout << k << '\n';
+
+	k -= n *= 3;
+
+	std::cout << k << '\n';
+	std::cout << n << '\n';
+
 	return 0;
 }
