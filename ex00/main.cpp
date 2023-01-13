@@ -30,6 +30,11 @@ int main()
 	a *= 0.7;
 	a.displayVectorLn();
 
+	Vector<int>	d;
+	d += c;
+
+	std::cout << "d = " << d << '\n';
+
 	std::cout << "m = \n" << m << '\n';
 
 	Matrix<int> n{

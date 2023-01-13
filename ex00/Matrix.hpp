@@ -57,7 +57,8 @@ namespace ft {
 		~Matrix() {}
 
 		Matrix &operator=(const Matrix &o) {	_mat = o._mat; _width = o._width;
-												_high = o._high; _fail = o._fail;}
+												_high = o._high; _fail = o._fail;
+												return *this;}
 
 		//GETTER, DISPLAYS
 
@@ -83,6 +84,7 @@ namespace ft {
 
 		bool		fail()	const {return _fail;}
 		bool		good()	const {return !_fail;}
+		bool		empty()	const {return _mat.getVector().empty();}
 		width_size	width() const {return _width;}
 		high_size	high()	const {return _high;}
 		iterator begin()				{return _mat.begin();}
@@ -94,7 +96,9 @@ namespace ft {
 
 		Matrix	&operator+=(const Matrix &rhs)
 		{
-			if (_width == rhs._width && _high == rhs._high)
+			if (_mat.getVector().empty())
+				*this = rhs;
+			else if (_width == rhs._width && _high == rhs._high)
 			{
 				const_iterator cit = rhs.begin();
 				for (iterator it = _mat.begin(); it != _mat.end(); ++it)
@@ -108,6 +112,8 @@ namespace ft {
 
 		Matrix	&operator-=(const Matrix &rhs)
 		{
+			if (_mat.getVector().empty())
+				*this = rhs * -1;
 			if (_width == rhs._width && _high == rhs._high)
 			{
 				const_iterator cit = rhs.begin();

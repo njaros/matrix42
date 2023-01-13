@@ -57,7 +57,8 @@ namespace ft {
 		~Matrix() {}
 
 		Matrix &operator=(const Matrix &o) {	_mat = o._mat; _width = o._width;
-												_high = o._high; _fail = o._fail;}
+												_high = o._high; _fail = o._fail;
+												return *this;}
 
 		//GETTER, DISPLAYS
 

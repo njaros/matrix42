@@ -80,7 +80,9 @@ namespace ft {
 		//OPERATOR
 
 		Vector &operator+=(const Vector &rhs) {
-			if (rhs.size() == size()) {
+			if (_components.empty())
+				*this = rhs;
+			else if (rhs.size() == size()) {
 				size_type idx = 0;
 				for (iterator it = _components.begin(); it != _components.end(); ++it)
 					*it += rhs._components[idx++];
@@ -89,7 +91,9 @@ namespace ft {
 		}
 
 		Vector &operator-=(const Vector &rhs) {
-			if (rhs.size() == size()) {
+			if (_components.empty())
+				*this = rhs * -1;
+			else if (rhs.size() == size()) {
 				size_type idx = 0;
 				for (iterator it = _components.begin(); it != _components.end(); ++it)
 					*it -= rhs._components[idx++];
