@@ -211,12 +211,16 @@ namespace ft {
 
 		Matrix	operator+(const Matrix &rhs) const
 		{
+			if (!empty() && !(rhs._high == _high && rhs._width == _width))
+				return (Matrix(true));
 			Matrix	m(*this);
 			return (m += rhs);
 		}
 
 		Matrix	operator-(const Matrix &rhs) const
 		{
+			if (!empty() && !(rhs._high == _high && rhs._width == _width))
+				return (Matrix(true));
 			Matrix	m(*this);
 			return (m -= rhs);
 		}
@@ -276,6 +280,9 @@ namespace ft {
 			return result;
 		}
 
+		//Given a matrix M belong to n*m
+		//The transpose is the matrix tM belong to m*n which is
+		//created by symmetry with the diagonal of M
 		Matrix	transpose() const
 		{
 			Matrix	transposed(_width, _high);
@@ -287,10 +294,18 @@ namespace ft {
 			return transposed;
 		}
 
+		//The row echelon form is used to build the inverted matrix of M
+		//Beware: this function will transform your current object and
+		//not create a new one !
 		Matrix	&rowEchelonSelf()
 		{
 			for (matrix_size_type idx = 0; idx != _high; ++idx)
 			{
+				if (idx >= _width) {
+					while (idx < _high)
+						_mat[idx++] = Vector<value_type>(_width);
+					break;
+				}
 				row_size_type	nonZero = _mat[idx]._firstNonZero();
 				matrix_size_type	toSwap = idx;
 				matrix_size_type	current = idx + 1;
@@ -314,16 +329,27 @@ namespace ft {
 			return *this;
 		}
 
+		//The row echelon form is used to build the inverted matrix of M
 		Matrix	rowEchelon() const
 		{
 			Matrix	result(*this);
 			return (result.rowEchelonSelf());
 		}
 
+		//Given a Matrix, his triangular form is a matrix constructed
+		//with Gauss transmutation to obtain a matrix with only 0
+		//in his bottom left triangle, diagonal not included.
+		//Beware: this function will transform your current object and
+		//not create a new one !
 		Matrix	&triangularSelf()
 		{
 			for (matrix_size_type idx = 0; idx != _high; ++idx)
 			{
+				if (idx >= _width) {
+					while (idx < _high)
+						_mat[idx++] = Vector<value_type>(_width);
+					break;
+				}
 				row_size_type	nonZero = _mat[idx]._firstNonZero();
 				matrix_size_type	toSwap = idx;
 				matrix_size_type	current = idx + 1;
@@ -344,15 +370,22 @@ namespace ft {
 					_mat[idx] *= -1;
 				_killDownTriangle(idx, nonZero);
 			}
+
 			return *this;
 		}
 
+		//Given a Matrix, his triangular form is a matrix constructed
+		//with Gauss transmutation to obtain a matrix with only 0
+		//in his bottom left triangle, diagonal not included.
 		Matrix	triangular() const
 		{
 			Matrix	triangle(*this);
 			return (triangle.triangularSelf());
 		}
 
+		//The determinant of a square matrix M is the multiplication
+		//of all the coefficients in the diagonal of the
+		//triangular matrix form of M.
 		value_type	determinant() const
 		{
 			value_type	result = value_type();
@@ -372,6 +405,12 @@ namespace ft {
 			return result;
 		}
 
+		//If the given matrix M is a square matrix n*n and have a non-null
+		//determinant, his inverse is the matrix M^-1 which has those properties :
+		//M * M^-1 = Idn
+		//M^-1 * M = Idn
+		//Where Idn is the square matrix n*n with only non-null coefficients
+		//are 1 in his diagonal.
 		Matrix	inverse() const
 		{
 			if (_width != _high)
@@ -382,6 +421,19 @@ namespace ft {
 				inverse[idx][idx] = 1;
 			tool._buildInverse(inverse);
 			return inverse;
+		}
+
+		matrix_size_type	rank()	const
+		{
+			Matrix	triangle(triangular());
+			matrix_size_type	idx = 0;
+			while (idx < _high)
+			{
+				if (triangle[idx]._firstNonZero() == _width)
+					return idx;
+				++idx;
+			}
+			return idx;
 		}
 
 	};

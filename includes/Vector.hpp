@@ -6,6 +6,7 @@
 #include <initializer_list>
 #include <cmath>
 #include "Matrix.hpp"
+#include "utils.hpp"
 
 namespace ft {
 
@@ -65,7 +66,7 @@ namespace ft {
 			std::cout << '(';
 			for (const_iterator cit = _components.begin(); cit != _components.end(); ++cit)
 			{
-				if (*cit == -0)
+				if (nearZero(*cit))
 					std::cout << 0;
 				else
 					std::cout << *cit;
@@ -79,7 +80,7 @@ namespace ft {
 			std::cout << '(';
 			for (const_iterator cit = _components.begin(); cit != _components.end(); ++cit)
 			{
-				if (*cit == -0)
+				if (nearZero(*cit))
 					std::cout << 0;
 				else
 					std::cout << *cit;
@@ -297,7 +298,7 @@ namespace ft {
 		o << '(';
 		for (typename Vector<T>::const_iterator cit = v.begin(); cit != v.end(); ++cit)
 		{
-			if (*cit == -0)
+			if (nearZero(*cit))
 				o << 0;
 			else
 				o << *cit;

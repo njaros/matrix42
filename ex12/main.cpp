@@ -1,4 +1,4 @@
-#include "vectorialLib.hpp"
+#include "../includes/vectorialLib.hpp"
 
 using namespace ft;
 
@@ -13,6 +13,7 @@ int main()
 
 	a.displayMatrixLn();
 	a.inverse().displayMatrixLn();
+	(a * a.inverse()).displayMatrixLn();
 
 	Matrix<float>	b({
 							   {1, 0, 0},
@@ -22,6 +23,7 @@ int main()
 
 	b.displayMatrixLn();
 	b.inverse().displayMatrixLn();
+	(b * b.inverse()).displayMatrixLn();
 
 	Matrix<float>	c({
 							   {8, 5, -2},
@@ -31,6 +33,7 @@ int main()
 
 	c.displayMatrixLn();
 	c.inverse().displayMatrixLn();
+	(c * c.inverse()).displayMatrixLn();
 
 	Matrix<float>	d({
 							   {1, 2, 3},
@@ -49,8 +52,9 @@ int main()
 
 	e.displayMatrixLn();
 	e.inverse().displayMatrixLn();
+	(e.inverse() * e).displayMatrixLn();
 
-	Matrix<float>	f = {
+	Matrix<double>	f = {
 			{7, 4, 1},
 			{1, 0, 0},
 			{14, 8, 2}

@@ -1,4 +1,4 @@
-#include "vectorialLib.hpp"
+#include "../includes/vectorialLib.hpp"
 
 using namespace ft;
 
@@ -57,6 +57,8 @@ int main()
 	};
 
 	f.displayMatrixLn();
+	std::cout << '\n';
+	f.triangular().displayMatrixLn();
 	std::cout << "rank = " << f.rank() << "\n\n";
 
 	Matrix<float>	g = {
