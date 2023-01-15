@@ -180,6 +180,8 @@ namespace ft {
 
 		Matrix	&operator+=(const Matrix &rhs)
 		{
+			if (fail() || rhs.fail())
+				return (*this);
 			if (_mat.getVector().empty())
 				*this = rhs;
 			else if (_width == rhs._width && _high == rhs._high)
@@ -196,6 +198,8 @@ namespace ft {
 
 		Matrix	&operator-=(const Matrix &rhs)
 		{
+			if (fail() || rhs.fail())
+				return (*this);
 			if (_mat.getVector().empty())
 				*this = rhs * -1;
 			if (_width == rhs._width && _high == rhs._high)
@@ -211,7 +215,7 @@ namespace ft {
 
 		Matrix	operator+(const Matrix &rhs) const
 		{
-			if (!empty() && !(rhs._high == _high && rhs._width == _width))
+			if (fail() || rhs.fail() || (!empty() && !(rhs._high == _high && rhs._width == _width)))
 				return (Matrix(true));
 			Matrix	m(*this);
 			return (m += rhs);
@@ -219,7 +223,7 @@ namespace ft {
 
 		Matrix	operator-(const Matrix &rhs) const
 		{
-			if (!empty() && !(rhs._high == _high && rhs._width == _width))
+			if (fail() || rhs.fail() || (!empty() && !(rhs._high == _high && rhs._width == _width)))
 				return (Matrix(true));
 			Matrix	m(*this);
 			return (m -= rhs);
@@ -227,6 +231,8 @@ namespace ft {
 
 		template<class K> Matrix	&operator*=(const K &scalar)
 		{
+			if (fail())
+				return (*this);
 			for (iterator it = _mat.begin(); it != _mat.end(); ++it)
 				*it *= scalar;
 			return (*this);
@@ -234,8 +240,8 @@ namespace ft {
 
 		Matrix	operator*(const Matrix &rhs) const
 		{
-			if (_width != rhs._high)
-				return Matrix();
+			if (fail() || rhs.fail() || _width != rhs._high)
+				return Matrix(true);
 			Matrix	m(_high, rhs._width);
 			for (matrix_size_type i = 0; i < m._high; ++i)
 			{
@@ -252,13 +258,17 @@ namespace ft {
 			return m;
 		}
 
-		Vector<value_type>	operator*(const Vector<T> &v) const
+		Vector<value_type>	operator*(const Vector<value_type> &v) const
 		{
+			if (fail())
+				return Vector<value_type>();
 			return (v * *this);
 		}
 
 		template<class K> Matrix	operator*(const K &scalar)	const
 		{
+			if (fail())
+				return Matrix(true);
 			Matrix	m(*this);
 			return (m *= scalar);
 		}
