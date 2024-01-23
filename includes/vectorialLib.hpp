@@ -2,6 +2,8 @@
 #define VECLIB
 
 #include "Vector.hpp"
+#include <type_traits>
+#include <initializer_list>
 
 namespace ft
 {
@@ -14,7 +16,7 @@ namespace ft
 	{
 		if (vectorSpace.fail() || !coefficients.size() || vectorSpace.high() != coefficients.size())
 		{
-			std::cerr << "Warning: lineaCombination: non associative arguments\n";
+			std::cerr << "Warning: linearCombination: non associative arguments\n";
 			return (Vector<T>());
 		}
 		typename Vector<T>::const_iterator	cit = coefficients.begin();
@@ -102,17 +104,78 @@ namespace ft
 		return vec;
 	}
 
+	//Template specializations for Vector and Matrix, that allows a cumfortable use of lerp
+
+	template< class T >
+	struct is_vector : public std::false_type {};
+
+	template< class T >
+	struct is_vector< Vector<T> > : public std::true_type {};
+
+	template< class T >
+	struct is_vector< const Vector<T> > : public std::true_type {};
+
+	template< class T >
+	struct is_inilist : public std::false_type {};
+
+	template< class T >
+	struct is_inilist< std::initializer_list<T> > : public std::true_type {};
+
+	template< class T >
+	struct is_inilist< const std::initializer_list<T> > : public std::true_type {};
+
+	template< class T >
+	struct is_matrix : public std::false_type {};
+
+	template< class T >
+	struct is_matrix< Matrix<T> > : public std::true_type {};
+
+	template< class T >
+	struct is_matrix< const Matrix<T> > : public std::true_type {};
+
+	template< class T >
+	struct is_matrix_inilist : public std::false_type {};
+
+	template < class T >
+	struct is_matrix_inilist< std::initializer_list< std::initializer_list< T > > > : public std::true_type {};
+
+	template < class T >
+	struct is_matrix_inilist< const std::initializer_list< std::initializer_list< T > > > : public std::true_type {};
+
 	//Linear intERPolation : lerp.
 	//lerp can give you any point in same line containing lhs ans rhs.
 	//In scalar range [0, 1], you got any point between lhs and rhs.
 	//In scalar range ]-inf, 0[, you got any point before lhs.
 	//In scalar range ]1, inf[, you got any point after rhs.
 	//In scalar range ]-inf, inf[, you got any point of the precedents ranges.
-	template<class T> T	lerp(const T &lhs, const T &rhs, double scalar)
+	template<class T>
+	typename std::enable_if<std::is_integral<T>::value ||
+							std::is_floating_point<T>::value ||
+							is_matrix<T>::value ||
+							is_vector<T>::value, T>::type
+		lerp(const T &lhs, const T &rhs, double scalar)
 	{
 		return (((1 - scalar) * lhs) + (scalar * rhs));
 	}
 
+	template<class T>
+	typename std::enable_if<std::is_integral<T>::value || std::is_floating_point<T>::value,
+							Vector< double > >::type
+		lerp(const std::initializer_list<T> &lhs, const std::initializer_list<T> &rhs, double scalar)
+	{
+		return (((1 - scalar) * Vector(lhs)) 
+					+ (scalar * Vector(rhs)));
+	}
+
+	template<class T>
+	typename std::enable_if<std::is_integral<T>::value || std::is_floating_point<T>::value,
+							Matrix< double > >::type
+		lerp(	const std::initializer_list<std::initializer_list< T > > &lhs,
+				const std::initializer_list<std::initializer_list< T > > &rhs, double scalar)
+	{
+		return (((1 - scalar) * Matrix(lhs))
+					+ (scalar * Matrix(rhs)));
+	}
 	//Given 2 vectors v1 and v2 belong to T^3 where T is your chosen type
 	//This returns v1 ^ v2
 	template<class T> Vector<T>	crossProduct3D(const Vector<T> &lhs, const Vector<T> &rhs)
@@ -122,6 +185,20 @@ namespace ft
 		return (Vector<T>({lhs[1] * rhs[2] - rhs[1] * lhs[2],
 						   lhs[2] * rhs[0] - rhs[2] * lhs[0],
 						   lhs[0] * rhs[1] - rhs[0] * lhs[1]}));
+	}
+
+	Matrix<double>	projection(double fov, double ratio, double near, double far)
+	{
+		Matrix proj(4, 4);
+
+		double fovr = fov * 180/M_PI;
+		proj[3][2] = -1.;
+		proj[0][0] = 1. / (std::tan((fovr / 2.)) * ratio);
+		proj[1][1] = 1. / std::tan((fovr / 2.));
+		proj[2][2] = far / (near - far);
+		proj[2][3] = -(far * near) / (far - near);
+
+		return proj;
 	}
 
 }

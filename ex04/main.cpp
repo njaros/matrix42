@@ -20,5 +20,14 @@ int main()
 	std::cout << "Euclidean Norm = " << v2.normEuclidean() << '\n';
 	std::cout << "Infinite Norm = " << v2.normInfinite() << '\n';
 
+	Vector u1({0, 0, 0,});
+	std::cout << u1.normManhattan() << ", " << u1.normEuclidean() << ", " << u1.normInfinite() << '\n';
+
+	u1 = {1, 2, 3};
+	std::cout << u1.normManhattan() << ", " << u1.normEuclidean() << ", " << u1.normInfinite() << '\n';
+
+	u1 = {-1, -2};
+	std::cout << u1.normManhattan() << ", " << u1.normEuclidean() << ", " << u1.normInfinite() << '\n';
+
 	return 0;
 }

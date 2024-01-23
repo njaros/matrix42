@@ -41,10 +41,10 @@ int main()
 	std::cout << "rank = " << d.rank() << "\n\n";
 
 	Matrix<float>	e = {
-			{8, 5, -2, 4},
-			{4, 2.5, 20, 4},
-			{8, 5, 1, 4},
-			{28, -4, 17, 1}
+			{8., 5., -2., 4.},
+			{4., 2.5, 20., 4.},
+			{8., 5., 1., 4.},
+			{28., -4., 17., 1.}
 	};
 
 	e.displayMatrixLn();
@@ -72,5 +72,15 @@ int main()
 	std::cout << '\n';
 	g.triangular().displayMatrixLn();
 	std::cout << "rank = " << g.rank() << '\n';
+
+	Matrix u({	{1, 2, 0, 0},
+				{2, 4, 0, 0},
+				{-1, 2, 1, 1}});
+
+	u.displayMatrixLn();
+	std::cout << '\n';
+	u.triangular().displayMatrixLn();
+	std::cout << "rank = " << u.rank() << '\n';
+
 	return 0;
 }

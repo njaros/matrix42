@@ -32,5 +32,17 @@ int main()
 
 	std::cout << "trace of \n" << a << " = " << a.trace() << '\n';
 	std::cout << "trace of \n" << b << " = " << b.trace() << '\n';
+
+	std::cout << "\n>>subject exemples<<\n\n";
+
+	Matrix u({{1, 0}, {0, 1}});
+	std::cout << u.trace() << "\n\n";
+
+	u = {{2, -5, 0}, {4, 3, 7}, {-2, 3, 4}};
+	std::cout << u.trace() << "\n\n";
+
+	u = {{-2, -8, 4}, {1, -23, 4}, {0, 6, 4}};
+	std::cout << u.trace() << "\n\n";
+	
 	return 0;
 }

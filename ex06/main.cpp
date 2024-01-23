@@ -21,5 +21,19 @@ int main()
 	v3 = crossProduct3D(v1, v2);
 	std::cout << v3 << '\n';
 
+std::cout << "\nsubjet exemples\n\n";
+
+	Vector u({0, 0, 1});
+	Vector v({1, 0, 0});
+	std::cout << crossProduct3D(u, v) << "\n\n";
+
+	u = {1, 2, 3};
+	v = {4, 5, 6};
+	std::cout << crossProduct3D(u, v) << "\n\n";
+
+	u = {4, 2, -3};
+	v = {-2, -5, 16};
+	std::cout << crossProduct3D(u, v) << "\n\n";
+
 	return 0;
 }

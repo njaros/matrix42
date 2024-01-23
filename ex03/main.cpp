@@ -8,7 +8,7 @@ int main()
 	std::cout << "dotProductInt = " << dotProductInt << '\n';
 
 	Vector<float> v1({0.1, -4.0001, 7.22});
-	Vector<float> v2({0.5, 1.5, 3});
+	Vector<float> v2({0.5, 1.5, 3.});
 	Vector<float> null({0, 0, 0});
 
 	std::cout << "v1 = " << v1 << '\n';
@@ -21,6 +21,21 @@ int main()
 	std::cout << "dot<float>(v1, null) = " << dot<float>(v1, null) << '\n';
 
 	std::cout << "dot<int>({1, 2}, {1}) = " << dot<int>({1, 2}, {1}) << '\n';
+
+std::cout << "\n>>subject exemple<<\n\n";
+
+	Vector u({0, 0});
+	const Vector v({1, 1});
+
+	std::cout << u.dot(v) << "\n\n";
+
+	u = {1, 1};
+
+	std::cout << u.dot(v) << "\n\n";
+
+	u = {-1, 6};
+	const Vector w({3, 2});
+	std::cout << u.dot(w) << "\n\n";
 
 	return 0;
 }

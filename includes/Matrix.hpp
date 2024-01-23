@@ -8,14 +8,14 @@ namespace ft {
 	template<class T>
 	class Vector;
 
-	template<class T>
+	template<class T = double>
 	class Matrix {
 
 	public:
 
 		typedef T value_type;
 		typedef ft::Vector<value_type> row;
-		typedef std::initializer_list<typename row::inilist> inilist;
+		typedef std::initializer_list<std::initializer_list<T> > inilist;
 		typedef ft::Vector<row> matrix;
 		typedef typename std::initializer_list<value_type>::size_type	width_size;
 		typedef typename inilist::size_type	high_size;
@@ -106,9 +106,13 @@ namespace ft {
 				*it = Vector<value_type>(m, val);
 		}
 
-		Matrix(const inilist &il) : _high(il.size()), _fail(false) {
-			for (typename inilist::const_iterator cit = il.begin(); cit != il.end(); ++cit)
+		template< class K >
+		Matrix(const std::initializer_list<std::initializer_list<K> > &il) : _high(0), _fail(false)
+		{
+			typedef typename std::initializer_list<std::initializer_list<K> > Kinilist;
+			for (typename Kinilist::const_iterator cit = il.begin(); cit != il.end(); ++cit)
 			{
+				++_high;
 				if (cit == il.begin())
 					_width = cit->size();
 				else if (cit->size() != _width)
@@ -123,6 +127,19 @@ namespace ft {
 			}
 		}
 
+		template< class K >
+		Matrix(const Matrix<K> &other,
+			typename std::enable_if<!std::is_same<T, K>::value, void>::type* = 0)
+				: _mat(other.high()), _width(other.width()), _high(other.high()), _fail(other.fail())
+		{
+			iterator start = begin();
+			for (typename Matrix<K>::const_iterator cit = other.begin(); cit != other.end(); ++cit)
+			{
+				*start = Vector(*cit);
+				++start;
+			}
+		}
+
 		Matrix(const Matrix &o) : _mat(o._mat), _width(o._width), _high(o._high), _fail(o._fail) {}
 
 		~Matrix() {}
@@ -133,7 +150,8 @@ namespace ft {
 
 		//GETTER, DISPLAYS
 
-		matrix	&getMatrix() {return _mat;}
+		matrix&	getMatrix() {return _mat;}
+		const matrix&	getMatrix()	const {return _mat;}
 
 		void displayMatrix() const {
 			if (_fail)

@@ -50,5 +50,32 @@ int main()
 
 	std::cout << u << '\n';
 
+std::cout << "\n>>subject exemples<<\n\n";
+
+	Matrix j({{1, 0}, {0, 1}});
+	Matrix k({{4, 2}});
+
+	std::cout << k * j << "\n\n";
+
+	j = {{2, 0}, {0, 2}};
+	k = {{4, 2}};
+	std::cout << k * j << "\n\n";
+
+	j = {{2, -2}, {-2, 2}};
+	k = {{4, 2}};
+	std::cout << k * j << "\n\n";
+
+	j = {{1, 0}, {0, 1}};
+	k = {{1, 0}, {0, 1}};
+	std::cout << k * j << "\n\n";
+
+	j = {{1, 0}, {0, 1}};
+	k = {{2, 1}, {4, 2}};
+	std::cout << k * j << "\n\n";
+
+	j = {{3, -5}, {6, 8}};
+	k = {{2, 1}, {4, 2}};
+	std::cout << k * j << "\n\n";
+
 	return 0;
 }

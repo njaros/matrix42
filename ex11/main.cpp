@@ -23,10 +23,10 @@ int main()
 	};
 
 	Matrix<float>	d = {
-			{8, 5, -2, 4},
-			{4, 2.5, 20, 4},
-			{8, 5, 1, 4},
-			{28, -4, 17, 1}
+			{8., 5., -2., 4.},
+			{4., 2.5, 20., 4.},
+			{8., 5., 1., 4.},
+			{28., -4., 17., 1.}
 	};
 
 	Matrix<float>	e = {
@@ -56,5 +56,29 @@ int main()
 	std::cout << "has for triangular form : \n";
 	e.triangular().displayMatrixLn();
 	std::cout << "has determinant = " << e.determinant() << '\n';
+
+std::cout << "\n>>subject exemples<<\n\n";
+
+	Matrix u(	{{1, -1},
+				{-1, 1}});
+
+	std::cout << u.determinant() << "\n\n";
+
+	u = {	{2, 0, 0},
+			{0, 2, 0},
+			{0, 0, 2}};
+	std::cout << u.determinant() << "\n\n";
+
+	u = {	{8, 5, -2},
+			{4, 7, 20},
+			{7, 6, 1}};
+	std::cout << u.determinant() << "\n\n";
+
+	u = {	{8., 5., -2., 4.},
+			{4., 2.5, 20., 4.},
+			{8., 5., 1., 4.},
+			{28., -4., 17., 1.}};
+	std::cout << u.determinant() << "\n\n";
+
 	return 0;
 }

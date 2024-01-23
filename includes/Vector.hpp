@@ -5,12 +5,13 @@
 #include <iostream>
 #include <initializer_list>
 #include <cmath>
+#include <type_traits>
 #include "Matrix.hpp"
 #include "utils.hpp"
 
 namespace ft {
 
-	template<class T>
+	template<class T = double>
 	class Vector {
 
 	public :
@@ -42,9 +43,22 @@ namespace ft {
 
 		Vector(size_type n, const value_type &val = value_type()) : _components(n, val) {};
 
-		Vector(const inilist &il) : _components(il) {}
+		template <class K>
+		Vector(const std::initializer_list<K> &il)
+		{
+			for (typename std::initializer_list<K>::const_iterator cit = il.begin(); cit != il.end(); ++cit)
+					_components.push_back(static_cast<T>(*cit));
+		}
 
-		Vector(const Vector &other) : _components(other._components) {}
+		Vector(const Vector& other) : _components(other._components) {}
+
+		template< class K >
+		Vector(const Vector<K> &other,
+				typename std::enable_if<!std::is_same<T, K>::value>::type* = 0)
+		{
+			for (typename Vector<K>::const_iterator cit = other.begin(); cit != other.end(); ++cit)
+				_components.push_back(static_cast<T>(*cit));
+		}
 
 		~Vector() {}
 
