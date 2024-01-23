@@ -191,12 +191,13 @@ namespace ft
 	{
 		Matrix proj(4, 4);
 
-		double fovr = fov * 180/M_PI;
+		double fovr = fov * M_PI/180;
+		double focal_length = 1./ std::tan(fovr / 2.);
 		proj[3][2] = -1.;
-		proj[0][0] = 1. / (std::tan((fovr / 2.)) * ratio);
-		proj[1][1] = 1. / std::tan((fovr / 2.));
-		proj[2][2] = far / (near - far);
-		proj[2][3] = -(far * near) / (far - near);
+		proj[0][0] = focal_length;
+		proj[1][1] = focal_length / ratio;
+		proj[2][2] = -((far + near) / (near - far));
+		proj[2][3] = -2 * ((far * near) / (far - near));
 
 		return proj;
 	}

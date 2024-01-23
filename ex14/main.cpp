@@ -1,4 +1,5 @@
 #include "../includes/vectorialLib.hpp"
+//http://www.terathon.com/gdc07_lengyel.pdf
 
 using namespace ft;
 
@@ -16,7 +17,7 @@ void	displayFormat(double d)
 int main()
 {
 
-	Matrix m = projection(90., 1., 1., 100.);
+	Matrix m = projection(90., 10. / 8., 1., 2.);
 	for (int i = 0; i < 4; ++i)
 	{
 		for (int j = 0; j < 4; ++j)
