@@ -17,7 +17,7 @@ void	displayFormat(double d)
 int main()
 {
 
-	Matrix m = projection(90., 10. / 8., 1., 2.);
+	Matrix m = projection(90.0, 1., 1.0, 100.0);
 	for (int i = 0; i < 4; ++i)
 	{
 		for (int j = 0; j < 4; ++j)

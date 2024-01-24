@@ -110,7 +110,7 @@ std::cout << ">>subject exemples<<\n\n";
 
 	const Matrix<float> vM{
 		{7., 4.},
-		{-2., 2,}
+		{-2., 2.}
 	};
 
 	std::cout << "u =\n" << u << '\n';

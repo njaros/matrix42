@@ -8,6 +8,7 @@
 #include <type_traits>
 #include "Matrix.hpp"
 #include "utils.hpp"
+#include "Complex.hpp"
 
 namespace ft {
 
@@ -225,7 +226,9 @@ namespace ft {
 		//Given 2 vectors a{a1, a2, ..., an-1, an} and b{b1, b2, ..., bn-1, bn},
 		//dot product k = <a|b> = a.b = a1 * b1 + a2 * b2 + ... + an-1 * bn-1 + an * bn.
 		//dot product returns a value_type and not a vector.
-		value_type	dot(const Vector &rhs)	const
+		template <class K = T>
+		typename std::enable_if<!is_complex<K>::value, K>::type
+			dot(const Vector<K> &rhs)	const
 		{
 			if (rhs.size() != size())
 			{
@@ -237,6 +240,25 @@ namespace ft {
 			for (const_iterator lhsIt = begin(); lhsIt != end(); ++lhsIt)
 			{
 				dotted += *rhsIt * *lhsIt;
+				++rhsIt;
+			}
+			return dotted;
+		}
+
+		template <class K = T>
+		typename std::enable_if<is_complex<K>::value, K>::type
+			dot(const Vector<K>& rhs) const
+		{
+			if (rhs.size() != size())
+			{
+				std::cerr << "Warning: Vector::dot: vectors must belong to the same vector space (= must have same size).\n";
+				return value_type();
+			}
+			value_type	dotted = value_type();
+			const_iterator	rhsIt = rhs.begin();
+			for (const_iterator lhsIt = begin(); lhsIt != end(); ++lhsIt)
+			{
+				dotted += *lhsIt * rhsIt->conjugate();
 				++rhsIt;
 			}
 			return dotted;

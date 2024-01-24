@@ -151,6 +151,7 @@ namespace ft
 	template<class T>
 	typename std::enable_if<std::is_integral<T>::value ||
 							std::is_floating_point<T>::value ||
+							is_complex<T>::value ||
 							is_matrix<T>::value ||
 							is_vector<T>::value, T>::type
 		lerp(const T &lhs, const T &rhs, double scalar)
@@ -159,7 +160,9 @@ namespace ft
 	}
 
 	template<class T>
-	typename std::enable_if<std::is_integral<T>::value || std::is_floating_point<T>::value,
+	typename std::enable_if<std::is_integral<T>::value ||
+							std::is_floating_point<T>::value ||
+							is_complex<T>::value,
 							Vector< double > >::type
 		lerp(const std::initializer_list<T> &lhs, const std::initializer_list<T> &rhs, double scalar)
 	{
@@ -168,7 +171,9 @@ namespace ft
 	}
 
 	template<class T>
-	typename std::enable_if<std::is_integral<T>::value || std::is_floating_point<T>::value,
+	typename std::enable_if<std::is_integral<T>::value ||
+							std::is_floating_point<T>::value ||
+							is_complex<T>::value,
 							Matrix< double > >::type
 		lerp(	const std::initializer_list<std::initializer_list< T > > &lhs,
 				const std::initializer_list<std::initializer_list< T > > &rhs, double scalar)
@@ -193,11 +198,11 @@ namespace ft
 
 		double fovr = fov * M_PI/180;
 		double focal_length = 1./ std::tan(fovr / 2.);
-		proj[3][2] = -1.;
-		proj[0][0] = focal_length;
-		proj[1][1] = focal_length / ratio;
-		proj[2][2] = -((far + near) / (near - far));
-		proj[2][3] = -2 * ((far * near) / (far - near));
+		proj[3][2] = 1.;
+		proj[0][0] = focal_length * ratio;
+		proj[1][1] = focal_length;
+		proj[2][2] = far / (far - near)	;
+		proj[2][3] = -((far * near) / (far - near));
 
 		return proj;
 	}

@@ -13,7 +13,7 @@ int main()
 	std::cout << "lc1 = " << lc1 << '\n';
 
 	Matrix<float>	m({
-							   {1.0, 2.1, 0},
+							   {1.0, 2.1, 0.},
 							   {4.8, 0.2, -1.98}
 	});
 
@@ -29,7 +29,7 @@ int main()
 	const Vector<float> v1({1., 2., 3.});
 	const Vector<float> v2({0., 10., -100.});
 
-	std::cout << linearCombination({e1, e2, e3}, {10., -2, 0.5}) << "\n\n";
+	std::cout << linearCombination({e1, e2, e3}, {10., -2., 0.5}) << "\n\n";
 
 	std::cout << linearCombination({v1, v2}, {10., -2.}) << "\n\n";
 
